@@ -1,27 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --gold: #D4AF37;
+  --dark-gold: #B8941F;
+  --red: #C41E3A;
+  --dark-red: #8B0000;
+  --cream: #F5F5DC;
+  --dark-brown: #3E2723;
+  --light-brown: #8D6E63;
+  --jade: #00A86B;
+  --dark-jade: #006B3C;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-} 
+  font-family: 'Crimson Text', serif;
+  background: linear-gradient(135deg, var(--cream) 0%, #FFF8DC 100%);
+  color: var(--dark-brown);
+  line-height: 1.6;
+}
+
+.font-display {
+  font-family: 'Playfair Display', serif;
+}
+
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.border-traditional {
+  border: 3px solid var(--gold);
+  border-image: linear-gradient(45deg, var(--gold), var(--dark-gold)) 1;
+}
+
+.bg-pattern {
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(196, 30, 58, 0.1) 0%, transparent 50%);
+}
+
+.lotus-decoration::before {
+  content: "❀";
+  color: var(--gold);
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.lotus-decoration::after {
+  content: "❀";
+  color: var(--gold);
+  font-size: 1.5rem;
+  margin-left: 0.5rem;
+}
+
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.traditional-card {
+  background: linear-gradient(145deg, #ffffff, #f8f8f8);
+  border: 2px solid var(--gold);
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+.traditional-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--red), var(--gold), var(--jade));
+}
+
+.btn-traditional {
+  background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-traditional:hover {
+  background: linear-gradient(135deg, var(--dark-gold), var(--gold));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+}
+
+.btn-traditional::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.btn-traditional:hover::before {
+  left: 100%;
+}
+
+.section-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 3rem 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--red), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dragon-border {
+  border: 3px solid;
+  border-image: linear-gradient(45deg, var(--red), var(--gold), var(--jade), var(--red)) 1;
+  border-radius: 10px;
+}

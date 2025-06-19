@@ -1,42 +1,66 @@
 export default function Hero() {
   return (
-    <div className="relative bg-gray-900 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
-        <div className="relative z-10 pb-8 bg-gray-900 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-          <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-            <div className="sm:text-center lg:text-left">
-              <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
-                <span className="block xl:inline">Discover the beauty of</span>{' '}
-                <span className="block text-indigo-600 xl:inline">Hanoi, Vietnam</span>
-              </h1>
-              <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                Experience the rich culture, delicious cuisine, and fascinating history of Vietnam's capital city. From ancient temples to modern attractions, Hanoi has something for every traveler.
-              </p>
-              <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                <div className="rounded-md shadow">
-                  <a
-                    href="#"
-                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-                  >
-                    Explore Attractions
-                  </a>
-                </div>
-                <div className="mt-3 sm:mt-0 sm:ml-3">
-                  <a
-                    href="#"
-                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10"
-                  >
-                    Learn More
-                  </a>
-                </div>
-              </div>
-            </div>
-          </main>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background with traditional pattern */}
+      <div className="absolute inset-0 bg-gradient-to-br from-red-900 via-red-800 to-yellow-800">
+        <div className="absolute inset-0 bg-pattern opacity-20"></div>
+        <div 
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: `url('https://images.pexels.com/photos/2412603/pexels-photo-2412603.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundBlendMode: 'overlay'
+          }}
+        ></div>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="animate-fade-in-up">
+          {/* Traditional decoration */}
+          <div className="flex justify-center mb-8">
+            <div className="text-6xl text-yellow-400 opacity-80">❀ ❀ ❀</div>
+          </div>
+
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white text-shadow mb-6">
+            <span className="block">Hà Nội</span>
+            <span className="block text-gradient text-6xl md:text-8xl lg:text-9xl">Thăng Long</span>
+          </h1>
+
+          <div className="max-w-4xl mx-auto mb-8">
+            <p className="text-xl md:text-2xl text-yellow-100 font-light leading-relaxed mb-4">
+              "Nghìn năm văn hiến, ngàn năm lịch sử"
+            </p>
+            <p className="text-lg md:text-xl text-white/90 leading-relaxed">
+              Khám phá vẻ đẹp cổ kính của kinh đô nghìn năm tuổi. Từ những ngôi đền cổ kính đến những con phố nhỏ đầy thơ mộng, 
+              Hà Nội sẽ mang đến cho bạn những trải nghiệm văn hóa độc đáo và khó quên.
+            </p>
+          </div>
+
+          {/* Action buttons */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
+            <button className="btn-traditional text-lg px-8 py-4 group">
+              <span className="relative z-10">Khám Phá Ngay</span>
+            </button>
+            <button className="bg-transparent border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-red-900 px-8 py-4 rounded-full font-semibold transition-all duration-300 text-lg">
+              Xem Video Giới Thiệu
+            </button>
+          </div>
+
+          {/* Traditional decoration */}
+          <div className="flex justify-center">
+            <div className="text-4xl text-yellow-400 opacity-60">❀ ❀ ❀</div>
+          </div>
         </div>
       </div>
-      <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-        <div className="h-56 w-full bg-gradient-to-r from-indigo-600 to-purple-600 sm:h-72 md:h-96 lg:w-full lg:h-full"></div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
       </div>
-    </div>
-  )
-} 
+    </section>
+  );
+}
