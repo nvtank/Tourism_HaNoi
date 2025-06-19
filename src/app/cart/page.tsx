@@ -1,36 +1,64 @@
+'use client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function CartPage() {
-  const cartItems = [
-    {
-      id: 1,
-      name: "Tour Phố Cổ Hà Nội",
-      image: "https://images.pexels.com/photos/2412603/pexels-photo-2412603.jpeg?auto=compress&cs=tinysrgb&w=300",
-      date: "25/12/2024",
-      duration: "1 ngày",
-      adults: 2,
-      children: 1,
-      price: 500000,
-      totalPrice: 1250000 // 2 adults + 1 child (50% discount)
-    },
-    {
-      id: 2,
-      name: "Tour Ẩm Thực Hà Nội",
-      image: "https://images.pexels.com/photos/4958792/pexels-photo-4958792.jpeg?auto=compress&cs=tinysrgb&w=300",
-      date: "28/12/2024",
-      duration: "1 ngày",
-      adults: 2,
-      children: 0,
-      price: 600000,
-      totalPrice: 1200000
-    }
-  ];
+  const [cartItems, setCartItems] = useState<any[]>([]);
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
-  const discount = 245000; // 10% member discount
+  useEffect(() => {
+    // Load cart items from localStorage
+    const savedCart = localStorage.getItem('cartItems');
+    if (savedCart) {
+      setCartItems(JSON.parse(savedCart));
+    }
+  }, []);
+
+  const updateQuantity = (itemId: string, newQuantity: number) => {
+    if (newQuantity <= 0) {
+      removeItem(itemId);
+      return;
+    }
+
+    const updatedItems = cartItems.map(item => 
+      item.id === itemId ? { ...item, quantity: newQuantity } : item
+    );
+    setCartItems(updatedItems);
+    localStorage.setItem('cartItems', JSON.stringify(updatedItems));
+  };
+
+  const removeItem = (itemId: string) => {
+    const updatedItems = cartItems.filter(item => item.id !== itemId);
+    setCartItems(updatedItems);
+    localStorage.setItem('cartItems', JSON.stringify(updatedItems));
+  };
+
+  const subtotal = cartItems.reduce((sum, item) => sum + (item.totalPrice * item.quantity), 0);
+  const discount = subtotal > 2000000 ? subtotal * 0.1 : 0; // 10% discount for orders over 2M
   const total = subtotal - discount;
+
+  const proceedToCheckout = () => {
+    if (cartItems.length === 0) {
+      alert('Giỏ hàng trống!');
+      return;
+    }
+
+    // Create booking data from cart
+    const bookingData = {
+      items: cartItems,
+      pricing: {
+        subtotal,
+        discount,
+        total
+      },
+      bookingId: 'CART' + Date.now(),
+      createdAt: new Date().toISOString()
+    };
+
+    localStorage.setItem('currentBooking', JSON.stringify(bookingData));
+    window.location.href = '/checkout';
+  };
 
   return (
     <div className="min-h-screen">
@@ -83,7 +111,10 @@ export default function CartPage() {
                               <h3 className="font-display text-xl font-bold text-red-900">
                                 {item.name}
                               </h3>
-                              <button className="text-red-600 hover:text-red-800 p-2">
+                              <button 
+                                onClick={() => removeItem(item.id)}
+                                className="text-red-600 hover:text-red-800 p-2 hover:bg-red-50 rounded-full transition-colors duration-300"
+                              >
                                 🗑️
                               </button>
                             </div>
@@ -112,17 +143,27 @@ export default function CartPage() {
                               <div className="flex items-center space-x-4">
                                 <span className="text-sm text-gray-600">Số lượng:</span>
                                 <div className="flex items-center border border-gray-300 rounded">
-                                  <button className="px-3 py-1 hover:bg-gray-100">-</button>
-                                  <span className="px-3 py-1 border-x">1</span>
-                                  <button className="px-3 py-1 hover:bg-gray-100">+</button>
+                                  <button 
+                                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                    className="px-3 py-1 hover:bg-gray-100 transition-colors duration-300"
+                                  >
+                                    -
+                                  </button>
+                                  <span className="px-3 py-1 border-x">{item.quantity}</span>
+                                  <button 
+                                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                    className="px-3 py-1 hover:bg-gray-100 transition-colors duration-300"
+                                  >
+                                    +
+                                  </button>
                                 </div>
                               </div>
                               <div className="text-right">
                                 <p className="text-sm text-gray-600">
-                                  {item.price.toLocaleString('vi-VN')} VNĐ/người
+                                  {item.price.toLocaleString('vi-VN')} VNĐ/tour
                                 </p>
                                 <p className="text-xl font-bold text-red-900">
-                                  {item.totalPrice.toLocaleString('vi-VN')} VNĐ
+                                  {(item.totalPrice * item.quantity).toLocaleString('vi-VN')} VNĐ
                                 </p>
                               </div>
                             </div>
@@ -137,7 +178,7 @@ export default function CartPage() {
                 <div className="text-center">
                   <Link
                     href="/tours"
-                    className="inline-flex items-center text-red-600 hover:text-yellow-700 font-semibold"
+                    className="inline-flex items-center text-red-600 hover:text-yellow-700 font-semibold transition-colors duration-300"
                   >
                     ← Tiếp tục chọn tour
                   </Link>
@@ -146,7 +187,7 @@ export default function CartPage() {
 
               {/* Order Summary */}
               <div className="space-y-6">
-                <div className="traditional-card p-6">
+                <div className="traditional-card p-6 sticky top-4">
                   <h3 className="font-display text-xl font-bold text-red-900 mb-6">
                     Tóm Tắt Đơn Hàng
                   </h3>
@@ -156,10 +197,12 @@ export default function CartPage() {
                       <span>Tạm tính:</span>
                       <span>{subtotal.toLocaleString('vi-VN')} VNĐ</span>
                     </div>
-                    <div className="flex justify-between text-green-600">
-                      <span>Giảm giá thành viên (10%):</span>
-                      <span>-{discount.toLocaleString('vi-VN')} VNĐ</span>
-                    </div>
+                    {discount > 0 && (
+                      <div className="flex justify-between text-green-600">
+                        <span>Giảm giá (10%):</span>
+                        <span>-{discount.toLocaleString('vi-VN')} VNĐ</span>
+                      </div>
+                    )}
                     <div className="border-t border-gray-200 pt-4">
                       <div className="flex justify-between text-lg font-bold text-red-900">
                         <span>Tổng cộng:</span>
@@ -168,12 +211,12 @@ export default function CartPage() {
                     </div>
                   </div>
 
-                  <Link
-                    href="/checkout"
-                    className="w-full btn-traditional text-center block mt-6"
+                  <button
+                    onClick={proceedToCheckout}
+                    className="w-full btn-traditional text-center mt-6"
                   >
                     Tiến Hành Thanh Toán
-                  </Link>
+                  </button>
                 </div>
 
                 {/* Promo Code */}
