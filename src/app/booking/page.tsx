@@ -2,7 +2,7 @@
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function BookingPage() {
   const [selectedTour, setSelectedTour] = useState('');
@@ -67,23 +67,6 @@ export default function BookingPage() {
       description: "Khám phá vẻ đẹp lung linh của Hà Nội về đêm"
     }
   ];
-
-  // Check if a tour was pre-selected from tours page
-  useEffect(() => {
-    const preSelectedTour = localStorage.getItem('selectedTour');
-    if (preSelectedTour) {
-      const tourData = JSON.parse(preSelectedTour);
-      // Find matching tour by title or id
-      const matchingTour = popularTours.find(tour => 
-        tour.name === tourData.title || tour.id === tourData.id
-      );
-      if (matchingTour) {
-        setSelectedTour(matchingTour.id);
-      }
-      // Clear the stored selection
-      localStorage.removeItem('selectedTour');
-    }
-  }, []);
 
   const selectedTourData = popularTours.find(tour => tour.id === selectedTour);
   const childrenPrice = selectedTourData ? selectedTourData.price * 0.5 : 0;
