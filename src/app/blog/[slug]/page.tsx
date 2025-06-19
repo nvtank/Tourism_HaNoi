@@ -1,38 +1,88 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
-export default function BlogDetailPage() {
-  const article = {
-    title: "Khám Phá Bí Mật Của 36 Phố Phường Hà Nội",
-    author: "Nguyễn Văn Minh",
-    date: "15 Tháng 12, 2024",
-    readTime: "8 phút đọc",
-    category: "Văn Hóa",
-    image: "https://images.pexels.com/photos/2412603/pexels-photo-2412603.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    content: `
-      <p>Khu phố cổ Hà Nội với 36 phố phường nổi tiếng không chỉ là trung tâm thương mại sầm uất mà còn là nơi lưu giữ những giá trị văn hóa truyền thống quý báu của thủ đô nghìn năm tuổi.</p>
-
-      <h2>Lịch Sử Hình Thành</h2>
-      <p>Khu phố cổ Hà Nội được hình thành từ thế kỷ 15, khi vua Lê Thái Tổ dời đô về Thăng Long. Các nghề thủ công được tập trung theo từng phố, tạo nên đặc trưng "một phố một nghề" độc đáo.</p>
-
-      <h2>Những Con Phố Đặc Sắc</h2>
-      <p><strong>Phố Hàng Mã:</strong> Nổi tiếng với các sản phẩm giấy mã, đồ thờ cúng và đồ trang trí lễ hội. Đây là nơi lưu giữ những nét đẹp tâm linh của người Việt.</p>
-
-      <p><strong>Phố Hàng Bạc:</strong> Từng là trung tâm chế tác và buôn bán bạc, vàng. Ngày nay vẫn còn nhiều cửa hàng kim hoàn truyền thống.</p>
-
-      <p><strong>Phố Hàng Gai:</strong> Chuyên về lụa và thêu, nơi bảo tồn nghề dệt lụa truyền thống của Việt Nam.</p>
-
-      <h2>Kiến Trúc Độc Đáo</h2>
-      <p>Những ngôi nhà ống đặc trưng với mặt tiền hẹp, chiều sâu dài, mái ngói âm dương tạo nên một kiến trúc độc đáo. Mỗi ngôi nhà đều có câu chuyện riêng, phản ánh lối sống và văn hóa của người Hà Nội xưa.</p>
-
-      <h2>Ẩm Thực Đường Phố</h2>
-      <p>Phố cổ còn nổi tiếng với ẩm thực đường phố phong phú. Từ tô phở nóng hổi, bánh cuốn thanh đạm đến chả cá Lã Vọng thơm ngon, tất cả đều mang đậm hương vị Hà Nội.</p>
-
-      <h2>Bảo Tồn và Phát Triển</h2>
-      <p>Hiện nay, khu phố cổ đang được bảo tồn và phát triển bền vững, vừa giữ gìn những giá trị truyền thống, vừa thích ứng với nhu cầu du lịch hiện đại.</p>
-    `
+interface BlogDetailPageProps {
+  params: {
+    slug: string;
   };
+}
+
+// Generate static params for all possible blog slugs
+export async function generateStaticParams() {
+  const blogSlugs = [
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'
+  ];
+
+  return blogSlugs.map((slug) => ({
+    slug: slug,
+  }));
+}
+
+export default function BlogDetailPage({ params }: BlogDetailPageProps) {
+  const { slug } = params;
+
+  // Mock blog data
+  const blogData: Record<string, any> = {
+    '1': {
+      id: 1,
+      title: "Khám Phá Bí Mật Của 36 Phố Phường Hà Nội",
+      content: `
+        <p>Khu phố cổ Hà Nội với 36 phố phường nổi tiếng không chỉ là trung tâm thương mại sầm uất mà còn là nơi lưu giữ những giá trị văn hóa truyền thống quý báu của thủ đô nghìn năm tuổi.</p>
+
+        <h2>Lịch Sử Hình Thành</h2>
+        <p>Khu phố cổ Hà Nội được hình thành từ thế kỷ 15, khi vua Lê Thái Tổ dời đô về Thăng Long. Các nghề thủ công được tập trung theo từng phố, tạo nên đặc trưng "một phố một nghề" độc đáo.</p>
+
+        <h2>Những Con Phố Đặc Sắc</h2>
+        <p><strong>Phố Hàng Mã:</strong> Nổi tiếng với các sản phẩm giấy mã, đồ thờ cúng và đồ trang trí lễ hội. Đây là nơi lưu giữ những nét đẹp tâm linh của người Việt.</p>
+
+        <p><strong>Phố Hàng Bạc:</strong> Từng là trung tâm chế tác và buôn bán bạc, vàng. Ngày nay vẫn còn nhiều cửa hàng kim hoàn truyền thống.</p>
+
+        <p><strong>Phố Hàng Gai:</strong> Chuyên về lụa và thêu, nơi bảo tồn nghề dệt lụa truyền thống của Việt Nam.</p>
+
+        <h2>Kiến Trúc Độc Đáo</h2>
+        <p>Những ngôi nhà ống đặc trưng với mặt tiền hẹp, chiều sâu dài, mái ngói âm dương tạo nên một kiến trúc độc đáo. Mỗi ngôi nhà đều có câu chuyện riêng, phản ánh lối sống và văn hóa của người Hà Nội xưa.</p>
+
+        <h2>Ẩm Thực Đường Phố</h2>
+        <p>Phố cổ còn nổi tiếng với ẩm thực đường phố phong phú. Từ tô phở nóng hổi, bánh cuốn thanh đạm đến chả cá Lã Vọng thơm ngon, tất cả đều mang đậm hương vị Hà Nội.</p>
+
+        <h2>Bảo Tồn và Phát Triển</h2>
+        <p>Hiện nay, khu phố cổ đang được bảo tồn và phát triển bền vững, vừa giữ gìn những giá trị truyền thống, vừa thích ứng với nhu cầu du lịch hiện đại.</p>
+      `,
+      author: "Nguyễn Văn Minh",
+      date: "15 Tháng 12, 2024",
+      category: "Văn Hóa",
+      image: "https://images.pexels.com/photos/2412603/pexels-photo-2412603.jpeg?auto=compress&cs=tinysrgb&w=1200"
+    },
+    '2': {
+      id: 2,
+      title: "Lịch Sử Hình Thành Văn Miếu - Quốc Tử Giám",
+      content: `
+        <p>Văn Miếu - Quốc Tử Giám là một trong những di tích lịch sử văn hóa quan trọng nhất của Việt Nam, được xây dựng từ năm 1070 dưới triều Lý Thánh Tông.</p>
+
+        <h2>Lịch Sử Xây Dựng</h2>
+        <p>Văn Miếu được xây dựng để thờ Khổng Tử và các bậc hiền tài. Đây là nơi đầu tiên ở Việt Nam thờ Khổng Tử, thể hiện sự tôn vinh đối với nho học.</p>
+
+        <h2>Quốc Tử Giám - Trường Đại Học Đầu Tiên</h2>
+        <p>Năm 1076, Quốc Tử Giám được thành lập bên trong Văn Miếu, trở thành trường đại học đầu tiên của Việt Nam, đào tạo con em hoàng gia và quý tộc.</p>
+
+        <h2>Kiến Trúc Độc Đáo</h2>
+        <p>Văn Miếu có kiến trúc theo lối chữ Công với 5 khuôn viên, thể hiện triết lý âm dương và ngũ hành trong văn hóa Việt Nam.</p>
+      `,
+      author: "Trần Thị Lan",
+      date: "12 Tháng 12, 2024",
+      category: "Lịch Sử",
+      image: "https://images.pexels.com/photos/5207262/pexels-photo-5207262.jpeg?auto=compress&cs=tinysrgb&w=1200"
+    }
+    // Add more blog posts as needed
+  };
+
+  const article = blogData[slug];
+
+  if (!article) {
+    notFound();
+  }
 
   const relatedPosts = [
     {
@@ -75,8 +125,6 @@ export default function BlogDetailPage() {
             <span>{article.author}</span>
             <span>•</span>
             <span>{article.date}</span>
-            <span>•</span>
-            <span>{article.readTime}</span>
           </div>
         </div>
       </section>

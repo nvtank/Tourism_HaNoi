@@ -9,6 +9,23 @@ interface TourDetailPageProps {
   };
 }
 
+// Generate static params for all possible tour slugs
+export async function generateStaticParams() {
+  // Define all possible tour slugs that exist in your app
+  const tourSlugs = [
+    'pho-co-ha-noi',
+    'van-mieu',
+    'lang-bac',
+    'am-thuc-ha-noi',
+    'lang-nghe-truyen-thong',
+    'ha-noi-ve-dem'
+  ];
+
+  return tourSlugs.map((slug) => ({
+    slug: slug,
+  }));
+}
+
 export default function TourDetailPage({ params }: TourDetailPageProps) {
   const { slug } = params;
 
@@ -51,6 +68,83 @@ export default function TourDetailPage({ params }: TourDetailPageProps) {
       ],
       included: ["Hướng dẫn viên", "Vé tham quan", "Nước uống"],
       notIncluded: ["Bữa ăn", "Chi phí cá nhân"]
+    },
+    'lang-bac': {
+      id: 3,
+      title: "Tour Lăng Chủ Tịch Hồ Chí Minh",
+      description: "Tham quan nơi an nghỉ của Bác Hồ kính yêu",
+      image: "https://images.pexels.com/photos/5207267/pexels-photo-5207267.jpeg?auto=compress&cs=tinysrgb&w=800",
+      price: "200.000 VNĐ",
+      duration: "Nửa ngày",
+      groupSize: "20-25 người",
+      highlights: ["Lăng Bác Hồ", "Nhà sàn Bác Hồ", "Bảo tàng Hồ Chí Minh", "Chùa Một Cột"],
+      schedule: [
+        "7:30 - Tập trung tại Ba Đình",
+        "8:00 - Lăng Bác Hồ",
+        "9:30 - Nhà sàn",
+        "10:30 - Bảo tàng",
+        "11:30 - Kết thúc"
+      ],
+      included: ["Hướng dẫn viên", "Vé tham quan", "Nước uống"],
+      notIncluded: ["Bữa ăn", "Chi phí cá nhân"]
+    },
+    'am-thuc-ha-noi': {
+      id: 4,
+      title: "Tour Ẩm Thực Hà Nội",
+      description: "Khám phá tinh hoa ẩm thực Hà Nội từ món ăn đường phố đến nhà hàng cao cấp",
+      image: "https://images.pexels.com/photos/4958792/pexels-photo-4958792.jpeg?auto=compress&cs=tinysrgb&w=800",
+      price: "600.000 VNĐ",
+      duration: "1 ngày",
+      groupSize: "8-12 người",
+      highlights: ["Phở Hà Nội", "Bún Chả", "Chả Cá Lã Vọng", "Cà phê trứng"],
+      schedule: [
+        "8:00 - Phở sáng",
+        "10:00 - Chè",
+        "12:00 - Bún chả",
+        "15:00 - Cà phê",
+        "17:00 - Chả cá",
+        "19:00 - Kết thúc"
+      ],
+      included: ["Hướng dẫn viên", "Tất cả bữa ăn", "Nước uống"],
+      notIncluded: ["Chi phí cá nhân", "Đồ uống có cồn"]
+    },
+    'lang-nghe-truyen-thong': {
+      id: 5,
+      title: "Tour Làng Nghề Truyền Thống",
+      description: "Tham quan các làng nghề nổi tiếng xung quanh Hà Nội",
+      image: "https://images.pexels.com/photos/5207264/pexels-photo-5207264.jpeg?auto=compress&cs=tinysrgb&w=800",
+      price: "700.000 VNĐ",
+      duration: "1 ngày",
+      groupSize: "12-18 người",
+      highlights: ["Làng gốm Bát Tràng", "Làng lụa Vạn Phúc", "Làng tranh Đông Hồ", "Làng đúc đồng"],
+      schedule: [
+        "7:00 - Khởi hành",
+        "8:30 - Bát Tràng",
+        "11:00 - Vạn Phúc",
+        "14:00 - Đông Hồ",
+        "17:00 - Về Hà Nội"
+      ],
+      included: ["Hướng dẫn viên", "Xe đưa đón", "Bữa trưa", "Vé tham quan"],
+      notIncluded: ["Chi phí mua sắm", "Chi phí cá nhân"]
+    },
+    'ha-noi-ve-dem': {
+      id: 6,
+      title: "Tour Hà Nội Về Đêm",
+      description: "Khám phá vẻ đẹp lung linh của Hà Nội về đêm",
+      image: "https://images.pexels.com/photos/2412600/pexels-photo-2412600.jpeg?auto=compress&cs=tinysrgb&w=800",
+      price: "400.000 VNĐ",
+      duration: "Tối (3 tiếng)",
+      groupSize: "10-15 người",
+      highlights: ["Hồ Hoàn Kiếm về đêm", "Phố đi bộ", "Bia hơi", "Chợ đêm"],
+      schedule: [
+        "18:00 - Tập trung",
+        "18:30 - Hồ Hoàn Kiếm",
+        "19:30 - Phố đi bộ",
+        "20:30 - Bia hơi",
+        "21:30 - Kết thúc"
+      ],
+      included: ["Hướng dẫn viên", "Nước uống", "Bia hơi"],
+      notIncluded: ["Bữa tối", "Chi phí cá nhân"]
     }
   };
 

@@ -1,9 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
   images: {
+    unoptimized: true,
     domains: ['images.pexels.com'],
     remotePatterns: [
       {
@@ -24,19 +22,6 @@ const nextConfig = {
   trailingSlash: true,
   output: 'export',
   distDir: 'out',
-  // Disable image optimization for static export
-  images: {
-    unoptimized: true,
-    domains: ['images.pexels.com'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'images.pexels.com',
-        port: '',
-        pathname: '/**',
-      },
-    ],
-  },
 }
 
 module.exports = nextConfig

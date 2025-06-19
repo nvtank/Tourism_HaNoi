@@ -9,6 +9,17 @@ interface NewsDetailPageProps {
   };
 }
 
+// Generate static params for all possible news IDs
+export async function generateStaticParams() {
+  const newsIds = [
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'
+  ];
+
+  return newsIds.map((id) => ({
+    id: id,
+  }));
+}
+
 export default function NewsDetailPage({ params }: NewsDetailPageProps) {
   const { id } = params;
 
@@ -48,6 +59,7 @@ export default function NewsDetailPage({ params }: NewsDetailPageProps) {
       category: "Khuyến Mãi",
       image: "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=800"
     }
+    // Add more news as needed
   };
 
   const article = newsData[id];
