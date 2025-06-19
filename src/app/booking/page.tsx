@@ -3,13 +3,14 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useState, useEffect } from 'react';
+import { Tour, CustomerInfo, BookingData } from '@/types/booking';
 
 export default function BookingPage() {
   const [selectedTour, setSelectedTour] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
-  const [customerInfo, setCustomerInfo] = useState({
+  const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
     fullName: '',
     phone: '',
     email: '',
@@ -17,7 +18,7 @@ export default function BookingPage() {
     specialRequests: ''
   });
 
-  const popularTours = [
+  const popularTours: Tour[] = [
     {
       id: 'pho-co',
       name: "Tour Phố Cổ Hà Nội",
@@ -91,7 +92,7 @@ export default function BookingPage() {
   const discount = subtotal > 1000000 ? subtotal * 0.1 : 0; // 10% discount for orders over 1M
   const total = subtotal - discount;
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: keyof CustomerInfo, value: string) => {
     setCustomerInfo(prev => ({
       ...prev,
       [field]: value
@@ -106,8 +107,13 @@ export default function BookingPage() {
       return;
     }
 
+    if (!selectedTourData) {
+      alert('Vui lòng chọn tour!');
+      return;
+    }
+
     // Create booking data
-    const bookingData = {
+    const bookingData: BookingData = {
       tour: selectedTourData,
       date: selectedDate,
       adults,

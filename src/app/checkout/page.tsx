@@ -2,12 +2,13 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useState, useEffect } from 'react';
+import { BookingData, OrderData, CardInfo } from '@/types/booking';
 
 export default function CheckoutPage() {
-  const [bookingData, setBookingData] = useState<any>(null);
+  const [bookingData, setBookingData] = useState<BookingData | null>(null);
   const [paymentMethod, setPaymentMethod] = useState('bank');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [cardInfo, setCardInfo] = useState({
+  const [cardInfo, setCardInfo] = useState<CardInfo>({
     cardNumber: '',
     expiryDate: '',
     cvv: '',
@@ -25,7 +26,7 @@ export default function CheckoutPage() {
     }
   }, []);
 
-  const handleCardInputChange = (field: string, value: string) => {
+  const handleCardInputChange = (field: keyof CardInfo, value: string) => {
     setCardInfo(prev => ({
       ...prev,
       [field]: value
@@ -61,8 +62,10 @@ export default function CheckoutPage() {
 
     // Simulate payment processing
     setTimeout(() => {
+      if (!bookingData) return;
+
       // Create order confirmation
-      const orderData = {
+      const orderData: OrderData = {
         ...bookingData,
         paymentMethod,
         paymentStatus: 'completed',
