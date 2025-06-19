@@ -2,8 +2,7 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
-import Image from 'next/image';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState<any[]>([]);
@@ -16,7 +15,7 @@ export default function CartPage() {
     }
   }, []);
 
-  const updateQuantity = useCallback((itemId: string, newQuantity: number) => {
+  const updateQuantity = (itemId: string, newQuantity: number) => {
     if (newQuantity <= 0) {
       removeItem(itemId);
       return;
@@ -27,19 +26,19 @@ export default function CartPage() {
     );
     setCartItems(updatedItems);
     localStorage.setItem('cartItems', JSON.stringify(updatedItems));
-  }, [cartItems]);
+  };
 
-  const removeItem = useCallback((itemId: string) => {
+  const removeItem = (itemId: string) => {
     const updatedItems = cartItems.filter(item => item.id !== itemId);
     setCartItems(updatedItems);
     localStorage.setItem('cartItems', JSON.stringify(updatedItems));
-  }, [cartItems]);
+  };
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.totalPrice * item.quantity), 0);
   const discount = subtotal > 2000000 ? subtotal * 0.1 : 0; // 10% discount for orders over 2M
   const total = subtotal - discount;
 
-  const proceedToCheckout = useCallback(() => {
+  const proceedToCheckout = () => {
     if (cartItems.length === 0) {
       alert('Giỏ hàng trống!');
       return;
@@ -59,7 +58,7 @@ export default function CartPage() {
 
     localStorage.setItem('currentBooking', JSON.stringify(bookingData));
     window.location.href = '/checkout';
-  }, [cartItems, subtotal, discount, total]);
+  };
 
   return (
     <div className="min-h-screen">
@@ -99,11 +98,9 @@ export default function CartPage() {
                         <div className="flex flex-col md:flex-row gap-6">
                           {/* Image */}
                           <div className="w-full md:w-48 h-32 rounded-lg overflow-hidden">
-                            <Image
+                            <img
                               src={item.image}
                               alt={item.name}
-                              width={192}
-                              height={128}
                               className="w-full h-full object-cover"
                             />
                           </div>

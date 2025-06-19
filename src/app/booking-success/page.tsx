@@ -3,64 +3,60 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { OrderData } from '@/types/booking';
 
 export default function BookingSuccessPage() {
-  const [orderData, setOrderData] = useState<OrderData | null>(null);
+  const [orderData, setOrderData] = useState<any>(null);
 
   useEffect(() => {
     // Get order data from localStorage
     const storedOrder = localStorage.getItem('lastOrder');
     if (storedOrder) {
-      setOrderData(JSON.parse(storedOrder) as OrderData);
+      setOrderData(JSON.parse(storedOrder));
     } else {
       // Redirect to home if no order data
       window.location.href = '/';
     }
-  }, []); // Empty dependency array is correct here as this should only run once
+  }, []);
 
   const downloadInvoice = () => {
-    if (!orderData) return;
-
     // Create a simple invoice content
     const invoiceContent = `
       ==========================================
       HÓA ĐƠN ĐẶT TOUR - DU LỊCH HÀ NỘI
       ==========================================
       
-      Mã đơn hàng: ${orderData.orderId}
-      Mã đặt tour: ${orderData.bookingId}
-      Ngày đặt: ${new Date(orderData.createdAt).toLocaleDateString('vi-VN')}
-      Ngày thanh toán: ${new Date(orderData.paidAt).toLocaleDateString('vi-VN')}
+      Mã đơn hàng: ${orderData?.orderId}
+      Mã đặt tour: ${orderData?.bookingId}
+      Ngày đặt: ${new Date(orderData?.createdAt).toLocaleDateString('vi-VN')}
+      Ngày thanh toán: ${new Date(orderData?.paidAt).toLocaleDateString('vi-VN')}
       
       ------------------------------------------
       THÔNG TIN KHÁCH HÀNG
       ------------------------------------------
-      Họ tên: ${orderData.customerInfo.fullName}
-      Điện thoại: ${orderData.customerInfo.phone}
-      Email: ${orderData.customerInfo.email}
-      Địa chỉ: ${orderData.customerInfo.address || 'Không có'}
+      Họ tên: ${orderData?.customerInfo.fullName}
+      Điện thoại: ${orderData?.customerInfo.phone}
+      Email: ${orderData?.customerInfo.email}
+      Địa chỉ: ${orderData?.customerInfo.address || 'Không có'}
       
       ------------------------------------------
       THÔNG TIN TOUR
       ------------------------------------------
-      Tên tour: ${orderData.tour.name}
-      Ngày khởi hành: ${new Date(orderData.date).toLocaleDateString('vi-VN')}
-      Thời gian: ${orderData.tour.duration}
-      Số người lớn: ${orderData.adults}
-      Số trẻ em: ${orderData.children}
+      Tên tour: ${orderData?.tour.name}
+      Ngày khởi hành: ${new Date(orderData?.date).toLocaleDateString('vi-VN')}
+      Thời gian: ${orderData?.tour.duration}
+      Số người lớn: ${orderData?.adults}
+      Số trẻ em: ${orderData?.children}
       
       ------------------------------------------
       CHI TIẾT THANH TOÁN
       ------------------------------------------
-      Tạm tính: ${orderData.pricing.subtotal.toLocaleString('vi-VN')} VNĐ
-      Giảm giá: -${orderData.pricing.discount.toLocaleString('vi-VN')} VNĐ
-      Tổng cộng: ${orderData.pricing.total.toLocaleString('vi-VN')} VNĐ
+      Tạm tính: ${orderData?.pricing.subtotal.toLocaleString('vi-VN')} VNĐ
+      Giảm giá: -${orderData?.pricing.discount.toLocaleString('vi-VN')} VNĐ
+      Tổng cộng: ${orderData?.pricing.total.toLocaleString('vi-VN')} VNĐ
       
-      Phương thức thanh toán: ${orderData.paymentMethod === 'bank' ? 'Chuyển khoản ngân hàng' : 
-                                orderData.paymentMethod === 'card' ? 'Thẻ tín dụng' :
-                                orderData.paymentMethod === 'ewallet' ? 'Ví điện tử' : 'Tiền mặt'}
+      Phương thức thanh toán: ${orderData?.paymentMethod === 'bank' ? 'Chuyển khoản ngân hàng' : 
+                                orderData?.paymentMethod === 'card' ? 'Thẻ tín dụng' :
+                                orderData?.paymentMethod === 'ewallet' ? 'Ví điện tử' : 'Tiền mặt'}
       
       ------------------------------------------
       LIÊN HỆ HỖ TRỢ
@@ -77,7 +73,7 @@ export default function BookingSuccessPage() {
     const element = document.createElement('a');
     const file = new Blob([invoiceContent], { type: 'text/plain' });
     element.href = URL.createObjectURL(file);
-    element.download = `invoice-${orderData.orderId}.txt`;
+    element.download = `invoice-${orderData?.orderId}.txt`;
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
@@ -147,11 +143,9 @@ export default function BookingSuccessPage() {
                   Thông Tin Tour
                 </h3>
                 <div className="bg-gray-50 p-6 rounded-lg">
-                  <Image
+                  <img
                     src={orderData.tour.image}
                     alt={orderData.tour.name}
-                    width={300}
-                    height={128}
                     className="w-full h-32 object-cover rounded-lg mb-4"
                   />
                   <h4 className="font-semibold text-red-900 mb-2">{orderData.tour.name}</h4>

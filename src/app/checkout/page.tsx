@@ -1,15 +1,13 @@
 'use client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useState, useEffect, useCallback } from 'react';
-import Image from 'next/image';
-import { BookingData, OrderData, CardInfo } from '@/types/booking';
+import { useState, useEffect } from 'react';
 
 export default function CheckoutPage() {
-  const [bookingData, setBookingData] = useState<BookingData | null>(null);
+  const [bookingData, setBookingData] = useState<any>(null);
   const [paymentMethod, setPaymentMethod] = useState('bank');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [cardInfo, setCardInfo] = useState<CardInfo>({
+  const [cardInfo, setCardInfo] = useState({
     cardNumber: '',
     expiryDate: '',
     cvv: '',
@@ -20,21 +18,21 @@ export default function CheckoutPage() {
     // Get booking data from localStorage
     const storedBooking = localStorage.getItem('currentBooking');
     if (storedBooking) {
-      setBookingData(JSON.parse(storedBooking) as BookingData);
+      setBookingData(JSON.parse(storedBooking));
     } else {
       // Redirect to booking page if no data
       window.location.href = '/booking';
     }
   }, []);
 
-  const handleCardInputChange = useCallback((field: keyof CardInfo, value: string) => {
+  const handleCardInputChange = (field: string, value: string) => {
     setCardInfo(prev => ({
       ...prev,
       [field]: value
     }));
-  }, []);
+  };
 
-  const formatCardNumber = useCallback((value: string) => {
+  const formatCardNumber = (value: string) => {
     const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
     const matches = v.match(/\d{4,16}/g);
     const match = matches && matches[0] || '';
@@ -47,26 +45,24 @@ export default function CheckoutPage() {
     } else {
       return v;
     }
-  }, []);
+  };
 
-  const formatExpiryDate = useCallback((value: string) => {
+  const formatExpiryDate = (value: string) => {
     const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
     if (v.length >= 2) {
       return v.substring(0, 2) + '/' + v.substring(2, 4);
     }
     return v;
-  }, []);
+  };
 
-  const handleSubmit = useCallback((e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
 
     // Simulate payment processing
     setTimeout(() => {
-      if (!bookingData) return;
-
       // Create order confirmation
-      const orderData: OrderData = {
+      const orderData = {
         ...bookingData,
         paymentMethod,
         paymentStatus: 'completed',
@@ -81,7 +77,7 @@ export default function CheckoutPage() {
       // Redirect to success page
       window.location.href = '/booking-success';
     }, 3000);
-  }, [bookingData, paymentMethod]);
+  };
 
   if (!bookingData) {
     return (
@@ -364,11 +360,9 @@ export default function CheckoutPage() {
                   
                   <div className="space-y-4 mb-6">
                     <div className="border-b border-gray-200 pb-4">
-                      <Image
+                      <img
                         src={bookingData.tour.image}
                         alt={bookingData.tour.name}
-                        width={300}
-                        height={128}
                         className="w-full h-32 object-cover rounded-lg mb-3"
                       />
                       <h4 className="font-semibold text-red-900 mb-2">{bookingData.tour.name}</h4>

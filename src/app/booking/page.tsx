@@ -2,16 +2,14 @@
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useState, useEffect, useCallback } from 'react';
-import Image from 'next/image';
-import { Tour, CustomerInfo, BookingData } from '@/types/booking';
+import { useState, useEffect } from 'react';
 
 export default function BookingPage() {
   const [selectedTour, setSelectedTour] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
-  const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
+  const [customerInfo, setCustomerInfo] = useState({
     fullName: '',
     phone: '',
     email: '',
@@ -19,7 +17,7 @@ export default function BookingPage() {
     specialRequests: ''
   });
 
-  const popularTours: Tour[] = [
+  const popularTours = [
     {
       id: 'pho-co',
       name: "Tour Phố Cổ Hà Nội",
@@ -85,7 +83,7 @@ export default function BookingPage() {
       // Clear the stored selection
       localStorage.removeItem('selectedTour');
     }
-  }, [popularTours]);
+  }, []);
 
   const selectedTourData = popularTours.find(tour => tour.id === selectedTour);
   const childrenPrice = selectedTourData ? selectedTourData.price * 0.5 : 0;
@@ -93,14 +91,14 @@ export default function BookingPage() {
   const discount = subtotal > 1000000 ? subtotal * 0.1 : 0; // 10% discount for orders over 1M
   const total = subtotal - discount;
 
-  const handleInputChange = useCallback((field: keyof CustomerInfo, value: string) => {
+  const handleInputChange = (field: string, value: string) => {
     setCustomerInfo(prev => ({
       ...prev,
       [field]: value
     }));
-  }, []);
+  };
 
-  const handleSubmit = useCallback((e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!selectedTour || !selectedDate || !customerInfo.fullName || !customerInfo.phone || !customerInfo.email) {
@@ -108,13 +106,8 @@ export default function BookingPage() {
       return;
     }
 
-    if (!selectedTourData) {
-      alert('Vui lòng chọn tour!');
-      return;
-    }
-
     // Create booking data
-    const bookingData: BookingData = {
+    const bookingData = {
       tour: selectedTourData,
       date: selectedDate,
       adults,
@@ -134,7 +127,7 @@ export default function BookingPage() {
     
     // Redirect to checkout
     window.location.href = '/checkout';
-  }, [selectedTour, selectedDate, customerInfo, selectedTourData, subtotal, discount, total, adults, children]);
+  };
 
   return (
     <div className="min-h-screen">
@@ -191,11 +184,9 @@ export default function BookingPage() {
                             ? 'border-red-500 bg-red-50 shadow-lg' 
                             : 'border-gray-200 hover:border-red-300 hover:shadow-md'
                         }`}>
-                          <Image
+                          <img
                             src={tour.image}
                             alt={tour.name}
-                            width={300}
-                            height={128}
                             className="w-full h-32 object-cover rounded-lg mb-3"
                           />
                           <h4 className="font-semibold text-red-900 mb-2">{tour.name}</h4>
@@ -415,11 +406,9 @@ export default function BookingPage() {
                   {selectedTourData ? (
                     <div className="space-y-4">
                       <div className="border-b border-gray-200 pb-4">
-                        <Image
+                        <img
                           src={selectedTourData.image}
                           alt={selectedTourData.name}
-                          width={300}
-                          height={128}
                           className="w-full h-32 object-cover rounded-lg mb-3"
                         />
                         <h4 className="font-semibold text-red-900 mb-2">{selectedTourData.name}</h4>
