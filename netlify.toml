@@ -1,0 +1,42 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_VERSION = "9"
+
+# Redirect rules for Next.js App Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  conditions = {Role = ["admin"]}
+
+# Handle dynamic routes
+[[redirects]]
+  from = "/tours/:slug"
+  to = "/tours/[slug]"
+  status = 200
+
+[[redirects]]
+  from = "/blog/:slug"
+  to = "/blog/[slug]"
+  status = 200
+
+[[redirects]]
+  from = "/news/:id"
+  to = "/news/[id]"
+  status = 200
+
+# Fallback for SPA
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[functions]
+  directory = "netlify/functions"
