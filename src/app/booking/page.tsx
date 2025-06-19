@@ -2,7 +2,8 @@
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { Tour, CustomerInfo, BookingData } from '@/types/booking';
 
 export default function BookingPage() {
@@ -84,7 +85,7 @@ export default function BookingPage() {
       // Clear the stored selection
       localStorage.removeItem('selectedTour');
     }
-  }, []);
+  }, [popularTours]);
 
   const selectedTourData = popularTours.find(tour => tour.id === selectedTour);
   const childrenPrice = selectedTourData ? selectedTourData.price * 0.5 : 0;
@@ -92,14 +93,14 @@ export default function BookingPage() {
   const discount = subtotal > 1000000 ? subtotal * 0.1 : 0; // 10% discount for orders over 1M
   const total = subtotal - discount;
 
-  const handleInputChange = (field: keyof CustomerInfo, value: string) => {
+  const handleInputChange = useCallback((field: keyof CustomerInfo, value: string) => {
     setCustomerInfo(prev => ({
       ...prev,
       [field]: value
     }));
-  };
+  }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     
     if (!selectedTour || !selectedDate || !customerInfo.fullName || !customerInfo.phone || !customerInfo.email) {
@@ -133,7 +134,7 @@ export default function BookingPage() {
     
     // Redirect to checkout
     window.location.href = '/checkout';
-  };
+  }, [selectedTour, selectedDate, customerInfo, selectedTourData, subtotal, discount, total, adults, children]);
 
   return (
     <div className="min-h-screen">
@@ -190,9 +191,11 @@ export default function BookingPage() {
                             ? 'border-red-500 bg-red-50 shadow-lg' 
                             : 'border-gray-200 hover:border-red-300 hover:shadow-md'
                         }`}>
-                          <img
+                          <Image
                             src={tour.image}
                             alt={tour.name}
+                            width={300}
+                            height={128}
                             className="w-full h-32 object-cover rounded-lg mb-3"
                           />
                           <h4 className="font-semibold text-red-900 mb-2">{tour.name}</h4>
@@ -412,9 +415,11 @@ export default function BookingPage() {
                   {selectedTourData ? (
                     <div className="space-y-4">
                       <div className="border-b border-gray-200 pb-4">
-                        <img
+                        <Image
                           src={selectedTourData.image}
                           alt={selectedTourData.name}
+                          width={300}
+                          height={128}
                           className="w-full h-32 object-cover rounded-lg mb-3"
                         />
                         <h4 className="font-semibold text-red-900 mb-2">{selectedTourData.name}</h4>

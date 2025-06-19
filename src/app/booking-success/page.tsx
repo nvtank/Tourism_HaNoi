@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { OrderData } from '@/types/booking';
 
 export default function BookingSuccessPage() {
@@ -17,7 +18,7 @@ export default function BookingSuccessPage() {
       // Redirect to home if no order data
       window.location.href = '/';
     }
-  }, []);
+  }, []); // Empty dependency array is correct here as this should only run once
 
   const downloadInvoice = () => {
     if (!orderData) return;
@@ -146,9 +147,11 @@ export default function BookingSuccessPage() {
                   Thông Tin Tour
                 </h3>
                 <div className="bg-gray-50 p-6 rounded-lg">
-                  <img
+                  <Image
                     src={orderData.tour.image}
                     alt={orderData.tour.name}
+                    width={300}
+                    height={128}
                     className="w-full h-32 object-cover rounded-lg mb-4"
                   />
                   <h4 className="font-semibold text-red-900 mb-2">{orderData.tour.name}</h4>

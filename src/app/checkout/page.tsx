@@ -1,7 +1,8 @@
 'use client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { BookingData, OrderData, CardInfo } from '@/types/booking';
 
 export default function CheckoutPage() {
@@ -26,14 +27,14 @@ export default function CheckoutPage() {
     }
   }, []);
 
-  const handleCardInputChange = (field: keyof CardInfo, value: string) => {
+  const handleCardInputChange = useCallback((field: keyof CardInfo, value: string) => {
     setCardInfo(prev => ({
       ...prev,
       [field]: value
     }));
-  };
+  }, []);
 
-  const formatCardNumber = (value: string) => {
+  const formatCardNumber = useCallback((value: string) => {
     const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
     const matches = v.match(/\d{4,16}/g);
     const match = matches && matches[0] || '';
@@ -46,17 +47,17 @@ export default function CheckoutPage() {
     } else {
       return v;
     }
-  };
+  }, []);
 
-  const formatExpiryDate = (value: string) => {
+  const formatExpiryDate = useCallback((value: string) => {
     const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
     if (v.length >= 2) {
       return v.substring(0, 2) + '/' + v.substring(2, 4);
     }
     return v;
-  };
+  }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
 
@@ -80,7 +81,7 @@ export default function CheckoutPage() {
       // Redirect to success page
       window.location.href = '/booking-success';
     }, 3000);
-  };
+  }, [bookingData, paymentMethod]);
 
   if (!bookingData) {
     return (
@@ -363,9 +364,11 @@ export default function CheckoutPage() {
                   
                   <div className="space-y-4 mb-6">
                     <div className="border-b border-gray-200 pb-4">
-                      <img
+                      <Image
                         src={bookingData.tour.image}
                         alt={bookingData.tour.name}
+                        width={300}
+                        height={128}
                         className="w-full h-32 object-cover rounded-lg mb-3"
                       />
                       <h4 className="font-semibold text-red-900 mb-2">{bookingData.tour.name}</h4>
