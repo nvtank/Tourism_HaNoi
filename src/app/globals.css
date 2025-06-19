@@ -353,6 +353,47 @@ select:focus {
   animation: button-glow 2s ease-in-out infinite;
 }
 
+/* Enhanced navbar menu item styles */
+.navbar-menu-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.navbar-menu-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 1;
+}
+
+.navbar-menu-item:hover::before {
+  left: 100%;
+}
+
+.navbar-menu-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--red), var(--gold));
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.navbar-menu-item:hover::after {
+  width: 100%;
+}
+
 /* Enhanced navbar button styles */
 .navbar-login-btn {
   position: relative;
@@ -399,6 +440,58 @@ select:focus {
   left: 100%;
 }
 
+/* Floating particles animation */
+@keyframes float-up {
+  0% {
+    transform: translateY(0) scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-30px) scale(1);
+    opacity: 0;
+  }
+}
+
+.floating-particle {
+  animation: float-up 1.5s ease-out infinite;
+}
+
+/* Enhanced glow effects */
+@keyframes menu-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(254, 240, 138, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(254, 240, 138, 0.4), 0 0 30px rgba(254, 240, 138, 0.2);
+  }
+}
+
+.menu-item-glow:hover {
+  animation: menu-glow 2s ease-in-out infinite;
+}
+
+/* Text effects */
+@keyframes text-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.text-shimmer {
+  background: linear-gradient(90deg, #ffffff 25%, #fde047 50%, #ffffff 75%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: text-shimmer 2s ease-in-out infinite;
+}
+
 /* Mobile responsive enhancements */
 @media (max-width: 768px) {
   .btn-traditional {
@@ -409,6 +502,10 @@ select:focus {
   .navbar-booking-btn {
     width: 100%;
     text-align: center;
+  }
+
+  .navbar-menu-item {
+    margin: 2px 0;
   }
 }
 
@@ -430,4 +527,26 @@ select:focus {
   .traditional-card {
     border-width: 3px;
   }
+
+  .navbar-menu-item {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Enhanced focus indicators */
+.navbar-menu-item:focus-within {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced backdrop blur */
+.backdrop-blur-enhanced {
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
 }

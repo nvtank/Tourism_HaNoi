@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
   const menuItems = [
     { href: '/', label: 'Trang Chủ' },
@@ -37,22 +38,108 @@ export default function Header() {
     }
   };
 
+  // Enhanced menu item variants với nhiều hiệu ứng
   const menuItemVariants = {
-    hidden: { opacity: 0, y: -20 },
+    hidden: { 
+      opacity: 0, 
+      y: -20,
+      scale: 0.9
+    },
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
+      scale: 1,
       transition: {
         delay: i * 0.1 + 0.3,
-        duration: 0.5,
-        ease: "easeOut"
+        duration: 0.6,
+        ease: [0.25, 0.46, 0.45, 0.94]
       }
     }),
     hover: {
-      scale: 1.05,
-      y: -2,
+      scale: 1.08,
+      y: -3,
+      rotateX: 5,
       transition: {
-        duration: 0.2,
+        duration: 0.3,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  // Variants cho background hover effect
+  const menuBackgroundVariants = {
+    initial: {
+      scaleX: 0,
+      opacity: 0
+    },
+    hover: {
+      scaleX: 1,
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }
+    },
+    exit: {
+      scaleX: 0,
+      opacity: 0,
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut"
+      }
+    }
+  };
+
+  // Variants cho underline effect
+  const underlineVariants = {
+    initial: {
+      width: 0,
+      opacity: 0
+    },
+    hover: {
+      width: "100%",
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut"
+      }
+    },
+    exit: {
+      width: 0,
+      opacity: 0,
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut"
+      }
+    }
+  };
+
+  // Variants cho glow effect
+  const glowVariants = {
+    initial: {
+      boxShadow: "0 0 0px rgba(254, 240, 138, 0)",
+      scale: 1
+    },
+    hover: {
+      boxShadow: "0 0 20px rgba(254, 240, 138, 0.6), 0 0 40px rgba(254, 240, 138, 0.3)",
+      scale: 1.02,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  // Variants cho text effect
+  const textVariants = {
+    initial: {
+      color: "#ffffff"
+    },
+    hover: {
+      color: "#fde047",
+      textShadow: "0 0 10px rgba(253, 224, 71, 0.5)",
+      transition: {
+        duration: 0.3,
         ease: "easeOut"
       }
     }
@@ -80,12 +167,17 @@ export default function Header() {
   };
 
   const mobileItemVariants = {
-    hidden: { opacity: 0, x: -20 },
+    hidden: { 
+      opacity: 0, 
+      x: -20,
+      scale: 0.9
+    },
     visible: {
       opacity: 1,
       x: 0,
+      scale: 1,
       transition: {
-        duration: 0.3,
+        duration: 0.4,
         ease: "easeOut"
       }
     }
@@ -219,7 +311,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-2">
             {menuItems.map((item, index) => (
               <motion.div
                 key={item.href}
@@ -228,18 +320,101 @@ export default function Header() {
                 animate="visible"
                 whileHover="hover"
                 custom={index}
+                className="relative"
+                onHoverStart={() => setHoveredItem(item.href)}
+                onHoverEnd={() => setHoveredItem(null)}
               >
-                <Link
-                  href={item.href}
-                  className="text-white hover:text-yellow-300 px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:bg-white/10 relative group"
+                {/* Background hover effect */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-lg"
+                  variants={menuBackgroundVariants}
+                  initial="initial"
+                  animate={hoveredItem === item.href ? "hover" : "initial"}
+                />
+
+                {/* Glow effect */}
+                <motion.div
+                  className="absolute inset-0 rounded-lg"
+                  variants={glowVariants}
+                  initial="initial"
+                  animate={hoveredItem === item.href ? "hover" : "initial"}
+                />
+
+                {/* Link content */}
+                <motion.div
+                  className="relative z-10"
+                  variants={textVariants}
+                  initial="initial"
+                  animate={hoveredItem === item.href ? "hover" : "initial"}
                 >
-                  {item.label}
-                  <motion.span 
-                    className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400"
-                    whileHover={{ width: "100%" }}
-                    transition={{ duration: 0.3 }}
-                  ></motion.span>
-                </Link>
+                  <Link
+                    href={item.href}
+                    className="block px-4 py-2 rounded-lg font-medium transition-all duration-300 relative"
+                  >
+                    {/* Text with enhanced effects */}
+                    <motion.span
+                      className="relative z-20"
+                      whileHover={{
+                        scale: 1.05,
+                        letterSpacing: "0.5px"
+                      }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {item.label}
+                    </motion.span>
+
+                    {/* Animated underline */}
+                    <motion.div
+                      className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-400"
+                      variants={underlineVariants}
+                      initial="initial"
+                      animate={hoveredItem === item.href ? "hover" : "initial"}
+                    />
+
+                    {/* Side borders */}
+                    <motion.div
+                      className="absolute left-0 top-0 w-0.5 bg-gradient-to-b from-transparent via-yellow-400 to-transparent"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={hoveredItem === item.href ? { height: "100%", opacity: 1 } : { height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, delay: 0.1 }}
+                    />
+                    <motion.div
+                      className="absolute right-0 top-0 w-0.5 bg-gradient-to-b from-transparent via-yellow-400 to-transparent"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={hoveredItem === item.href ? { height: "100%", opacity: 1 } : { height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, delay: 0.1 }}
+                    />
+
+                    {/* Floating particles effect */}
+                    {hoveredItem === item.href && (
+                      <motion.div className="absolute inset-0 pointer-events-none">
+                        {[...Array(3)].map((_, i) => (
+                          <motion.div
+                            key={i}
+                            className="absolute w-1 h-1 bg-yellow-400 rounded-full"
+                            initial={{ 
+                              x: Math.random() * 100 + "%", 
+                              y: "100%", 
+                              opacity: 0,
+                              scale: 0
+                            }}
+                            animate={{ 
+                              y: "-20px", 
+                              opacity: [0, 1, 0],
+                              scale: [0, 1, 0]
+                            }}
+                            transition={{ 
+                              duration: 1.5, 
+                              delay: i * 0.2,
+                              repeat: Infinity,
+                              ease: "easeOut"
+                            }}
+                          />
+                        ))}
+                      </motion.div>
+                    )}
+                  </Link>
+                </motion.div>
               </motion.div>
             ))}
             
@@ -249,7 +424,7 @@ export default function Header() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.8, duration: 0.5 }}
             >
-              {/* Nút Đăng Nhập với hiệu ứng mới */}
+              {/* Nút Đăng Nhập với hiệu ứng nâng cao */}
               <motion.div
                 variants={loginButtonVariants}
                 initial="rest"
@@ -269,6 +444,13 @@ export default function Header() {
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileHover={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3 }}
+                />
+                {/* Shimmer effect */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "100%" }}
+                  transition={{ duration: 0.6 }}
                 />
               </motion.div>
 
@@ -306,6 +488,17 @@ export default function Header() {
                     initial={{ opacity: 0 }}
                     whileHover={{ opacity: 1 }}
                     transition={{ duration: 0.3 }}
+                  />
+
+                  {/* Pulse effect */}
+                  <motion.div
+                    className="absolute inset-0 bg-yellow-400 rounded-full z-0"
+                    initial={{ scale: 0, opacity: 0 }}
+                    whileHover={{ 
+                      scale: [0, 1.2, 0],
+                      opacity: [0, 0.3, 0]
+                    }}
+                    transition={{ duration: 0.6 }}
                   />
                 </Link>
               </motion.div>
@@ -354,13 +547,35 @@ export default function Header() {
                   <motion.div
                     key={item.href}
                     variants={mobileItemVariants}
+                    whileHover={{ 
+                      x: 10,
+                      scale: 1.02,
+                      backgroundColor: "rgba(255, 255, 255, 0.1)"
+                    }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
+                    className="rounded-lg"
                   >
                     <Link
                       href={item.href}
-                      className="text-white hover:text-yellow-300 px-4 py-3 rounded-lg font-medium transition-colors duration-300 hover:bg-white/10 block"
+                      className="text-white hover:text-yellow-300 px-4 py-3 rounded-lg font-medium transition-colors duration-300 block relative overflow-hidden"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      {item.label}
+                      <motion.span
+                        className="relative z-10"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {item.label}
+                      </motion.span>
+                      
+                      {/* Mobile hover effect */}
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-red-400/20"
+                        initial={{ x: "-100%" }}
+                        whileHover={{ x: "0%" }}
+                        transition={{ duration: 0.3 }}
+                      />
                     </Link>
                   </motion.div>
                 ))}
