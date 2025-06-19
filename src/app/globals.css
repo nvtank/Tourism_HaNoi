@@ -154,7 +154,6 @@ body {
   left: 100%;
 }
 
-/* Enhanced button effects */
 .btn-traditional::after {
   content: '';
   position: absolute;
@@ -219,7 +218,6 @@ body {
   border-radius: 10px;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -237,12 +235,10 @@ body {
   background: linear-gradient(135deg, var(--dark-gold), var(--dark-red));
 }
 
-/* Smooth transitions for all elements */
 * {
   transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Enhanced focus states */
 button:focus,
 input:focus,
 textarea:focus,
@@ -251,7 +247,6 @@ select:focus {
   outline-offset: 2px;
 }
 
-/* Loading animation */
 @keyframes lotus-spin {
   0% { transform: rotate(0deg) scale(1); }
   50% { transform: rotate(180deg) scale(1.1); }
@@ -262,7 +257,6 @@ select:focus {
   animation: lotus-spin 2s ease-in-out infinite;
 }
 
-/* Parallax effect */
 .parallax {
   transform-style: preserve-3d;
 }
@@ -275,14 +269,12 @@ select:focus {
   bottom: 0;
 }
 
-/* Glass morphism effect */
 .glass-effect {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Floating animation */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-20px); }
@@ -292,7 +284,6 @@ select:focus {
   animation: float 6s ease-in-out infinite;
 }
 
-/* Pulse effect */
 @keyframes pulse-glow {
   0%, 100% { 
     box-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
@@ -306,7 +297,6 @@ select:focus {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
-/* Text reveal animation */
 @keyframes text-reveal {
   0% {
     clip-path: inset(0 100% 0 0);
@@ -320,7 +310,6 @@ select:focus {
   animation: text-reveal 1s ease-out forwards;
 }
 
-/* Gradient text animation */
 @keyframes gradient-shift {
   0%, 100% {
     background-position: 0% 50%;
@@ -339,7 +328,6 @@ select:focus {
   animation: gradient-shift 3s ease infinite;
 }
 
-/* Button hover glow effect */
 @keyframes button-glow {
   0%, 100% {
     box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
@@ -353,7 +341,6 @@ select:focus {
   animation: button-glow 2s ease-in-out infinite;
 }
 
-/* Enhanced navbar menu item styles */
 .navbar-menu-item {
   position: relative;
   overflow: hidden;
@@ -394,7 +381,6 @@ select:focus {
   width: 100%;
 }
 
-/* Enhanced navbar button styles */
 .navbar-login-btn {
   position: relative;
   overflow: hidden;
@@ -440,7 +426,6 @@ select:focus {
   left: 100%;
 }
 
-/* Floating particles animation */
 @keyframes float-up {
   0% {
     transform: translateY(0) scale(0);
@@ -459,7 +444,6 @@ select:focus {
   animation: float-up 1.5s ease-out infinite;
 }
 
-/* Enhanced glow effects */
 @keyframes menu-glow {
   0%, 100% {
     box-shadow: 0 0 5px rgba(254, 240, 138, 0);
@@ -473,7 +457,6 @@ select:focus {
   animation: menu-glow 2s ease-in-out infinite;
 }
 
-/* Text effects */
 @keyframes text-shimmer {
   0% {
     background-position: -200% center;
@@ -492,7 +475,39 @@ select:focus {
   animation: text-shimmer 2s ease-in-out infinite;
 }
 
-/* Mobile responsive enhancements */
+/* Prose styles for blog content */
+.prose {
+  max-width: none;
+}
+
+.prose h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #7f1d1d;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.prose h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #991b1b;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+  line-height: 1.8;
+}
+
+.prose strong {
+  color: #7f1d1d;
+  font-weight: 600;
+}
+
 @media (max-width: 768px) {
   .btn-traditional {
     padding: 10px 20px;
@@ -509,7 +524,6 @@ select:focus {
   }
 }
 
-/* Accessibility improvements */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -518,7 +532,6 @@ select:focus {
   }
 }
 
-/* High contrast mode support */
 @media (prefers-contrast: high) {
   .btn-traditional {
     border: 2px solid currentColor;
@@ -533,19 +546,16 @@ select:focus {
   }
 }
 
-/* Enhanced focus indicators */
 .navbar-menu-item:focus-within {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
   border-radius: 8px;
 }
 
-/* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
 }
 
-/* Enhanced backdrop blur */
 .backdrop-blur-enhanced {
   backdrop-filter: blur(12px) saturate(180%);
   -webkit-backdrop-filter: blur(12px) saturate(180%);

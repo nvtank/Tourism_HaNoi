@@ -10,8 +10,12 @@ module.exports = {
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
+        cream: '#F5F5DC',
+      },
+      fontFamily: {
+        display: ['Playfair Display', 'serif'],
       },
     },
   },
   plugins: [],
-} 
+}
