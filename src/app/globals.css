@@ -24,6 +24,7 @@ body {
   background: linear-gradient(135deg, var(--cream) 0%, #FFF8DC 100%);
   color: var(--dark-brown);
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 .font-display {
@@ -42,7 +43,15 @@ body {
 .bg-pattern {
   background-image: 
     radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(196, 30, 58, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 75% 75%, rgba(196, 30, 58, 0.1) 0%, transparent 50%),
+    linear-gradient(45deg, transparent 40%, rgba(212, 175, 55, 0.05) 50%, transparent 60%);
+  background-size: 100px 100px, 150px 150px, 200px 200px;
+  animation: patternMove 30s linear infinite;
+}
+
+@keyframes patternMove {
+  0% { background-position: 0% 0%, 0% 0%, 0% 0%; }
+  100% { background-position: 100% 100%, -100% 100%, 100% -100%; }
 }
 
 .lotus-decoration::before {
@@ -78,6 +87,7 @@ body {
   border-radius: 15px;
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .traditional-card::before {
@@ -88,6 +98,18 @@ body {
   right: 0;
   height: 4px;
   background: linear-gradient(90deg, var(--red), var(--gold), var(--jade));
+  transition: all 0.3s ease;
+}
+
+.traditional-card:hover::before {
+  height: 6px;
+  background: linear-gradient(90deg, var(--red), var(--gold), var(--jade), var(--red));
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
 }
 
 .btn-traditional {
@@ -102,6 +124,7 @@ body {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .btn-traditional:hover {
@@ -129,6 +152,19 @@ body {
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
   margin: 3rem 0;
+  position: relative;
+}
+
+.section-divider::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 6px;
+  background: var(--gold);
+  border-radius: 3px;
 }
 
 @keyframes fadeInUp {
@@ -157,4 +193,124 @@ body {
   border: 3px solid;
   border-image: linear-gradient(45deg, var(--red), var(--gold), var(--jade), var(--red)) 1;
   border-radius: 10px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--gold), var(--red));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--dark-gold), var(--dark-red));
+}
+
+/* Smooth transitions for all elements */
+* {
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Enhanced focus states */
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Loading animation */
+@keyframes lotus-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.lotus-loading {
+  animation: lotus-spin 2s ease-in-out infinite;
+}
+
+/* Parallax effect */
+.parallax {
+  transform-style: preserve-3d;
+}
+
+.parallax-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Glass morphism effect */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Pulse effect */
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+  }
+  50% { 
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 0 30px rgba(212, 175, 55, 0.6);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Text reveal animation */
+@keyframes text-reveal {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.text-reveal {
+  animation: text-reveal 1s ease-out forwards;
+}
+
+/* Gradient text animation */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(45deg, var(--red), var(--gold), var(--jade), var(--red));
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 3s ease infinite;
 }
