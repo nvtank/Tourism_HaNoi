@@ -91,11 +91,19 @@ export default function Header() {
     }
   };
 
-  const buttonVariants = {
+  // Variants cho nút đăng nhập
+  const loginButtonVariants = {
+    rest: {
+      scale: 1,
+      y: 0,
+      backgroundColor: "transparent",
+      color: "#ffffff"
+    },
     hover: {
       scale: 1.05,
       y: -2,
-      boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
+      backgroundColor: "rgba(255, 255, 255, 0.1)",
+      color: "#fde047",
       transition: {
         duration: 0.3,
         ease: "easeOut"
@@ -105,6 +113,42 @@ export default function Header() {
       scale: 0.95,
       transition: {
         duration: 0.1
+      }
+    }
+  };
+
+  // Variants cho nút đặt tour
+  const bookingButtonVariants = {
+    rest: {
+      scale: 1,
+      y: 0,
+      boxShadow: "0 4px 15px rgba(212, 175, 55, 0.3)"
+    },
+    hover: {
+      scale: 1.05,
+      y: -3,
+      boxShadow: "0 8px 25px rgba(212, 175, 55, 0.5)",
+      transition: {
+        duration: 0.3,
+        ease: "easeOut"
+      }
+    },
+    tap: {
+      scale: 0.95,
+      y: 0,
+      transition: {
+        duration: 0.1
+      }
+    }
+  };
+
+  const shimmerVariants = {
+    rest: { x: "-100%" },
+    hover: {
+      x: "100%",
+      transition: {
+        duration: 0.6,
+        ease: "easeInOut"
       }
     }
   };
@@ -205,34 +249,62 @@ export default function Header() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.8, duration: 0.5 }}
             >
-              <motion.div whileHover="hover" variants={buttonVariants}>
+              {/* Nút Đăng Nhập với hiệu ứng mới */}
+              <motion.div
+                variants={loginButtonVariants}
+                initial="rest"
+                whileHover="hover"
+                whileTap="tap"
+                className="relative overflow-hidden rounded-lg"
+              >
                 <Link
                   href="/login"
-                  className="text-white hover:text-yellow-300 px-4 py-2 rounded-lg font-medium transition-colors duration-300"
+                  className="block px-4 py-2 rounded-lg font-medium transition-all duration-300 relative z-10"
                 >
                   Đăng Nhập
                 </Link>
+                {/* Hiệu ứng background hover */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/20"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileHover={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
               </motion.div>
-              <motion.div 
-                whileHover="hover" 
+
+              {/* Nút Đặt Tour với hiệu ứng nâng cao */}
+              <motion.div
+                variants={bookingButtonVariants}
+                initial="rest"
+                whileHover="hover"
                 whileTap="tap"
-                variants={buttonVariants}
+                className="relative overflow-hidden"
               >
                 <Link
                   href="/booking"
-                  className="btn-traditional text-sm relative overflow-hidden"
+                  className="btn-traditional text-sm relative z-20 block"
                 >
                   <motion.span
-                    className="relative z-10"
+                    className="relative z-30"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.2 }}
                   >
                     Đặt Tour
                   </motion.span>
+                  
+                  {/* Hiệu ứng shimmer */}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-yellow-500 to-yellow-700"
-                    initial={{ x: "-100%" }}
-                    whileHover={{ x: "0%" }}
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent z-10"
+                    variants={shimmerVariants}
+                    initial="rest"
+                    whileHover="hover"
+                  />
+                  
+                  {/* Background gradient hover */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-yellow-500 to-yellow-700 z-0"
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
                     transition={{ duration: 0.3 }}
                   />
                 </Link>
@@ -296,23 +368,47 @@ export default function Header() {
                   className="flex flex-col space-y-2 pt-4 border-t border-white/20"
                   variants={mobileItemVariants}
                 >
-                  <Link
-                    href="/login"
-                    className="text-white hover:text-yellow-300 px-4 py-3 rounded-lg font-medium transition-colors duration-300"
-                    onClick={() => setIsMenuOpen(false)}
+                  {/* Mobile Login Button */}
+                  <motion.div
+                    whileHover={{ scale: 1.02, x: 5 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
                   >
-                    Đăng Nhập
-                  </Link>
+                    <Link
+                      href="/login"
+                      className="text-white hover:text-yellow-300 px-4 py-3 rounded-lg font-medium transition-colors duration-300 hover:bg-white/10 block"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Đăng Nhập
+                    </Link>
+                  </motion.div>
+                  
+                  {/* Mobile Booking Button */}
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
+                    className="mx-4 relative overflow-hidden rounded-full"
                   >
                     <Link
                       href="/booking"
-                      className="btn-traditional text-center mx-4 block"
+                      className="btn-traditional text-center block relative z-10"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      Đặt Tour
+                      <motion.span
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.2 }}
+                        className="relative z-20"
+                      >
+                        Đặt Tour
+                      </motion.span>
+                      
+                      {/* Mobile shimmer effect */}
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent z-10"
+                        initial={{ x: "-100%" }}
+                        whileHover={{ x: "100%" }}
+                        transition={{ duration: 0.6 }}
+                      />
                     </Link>
                   </motion.div>
                 </motion.div>
