@@ -19,7 +19,7 @@ export default function CheckoutPage() {
     // Get booking data from localStorage
     const storedBooking = localStorage.getItem('currentBooking');
     if (storedBooking) {
-      setBookingData(JSON.parse(storedBooking));
+      setBookingData(JSON.parse(storedBooking) as BookingData);
     } else {
       // Redirect to booking page if no data
       window.location.href = '/booking';

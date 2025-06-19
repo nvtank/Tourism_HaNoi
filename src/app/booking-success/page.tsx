@@ -12,7 +12,7 @@ export default function BookingSuccessPage() {
     // Get order data from localStorage
     const storedOrder = localStorage.getItem('lastOrder');
     if (storedOrder) {
-      setOrderData(JSON.parse(storedOrder));
+      setOrderData(JSON.parse(storedOrder) as OrderData);
     } else {
       // Redirect to home if no order data
       window.location.href = '/';
