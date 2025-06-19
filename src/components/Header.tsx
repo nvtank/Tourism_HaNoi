@@ -111,7 +111,7 @@ export default function Header() {
 
   return (
     <motion.header 
-      className="bg-gradient-to-r from-red-900 via-red-800 to-red-900 shadow-2xl relative overflow-hidden"
+      className="bg-gradient-to-r from-red-900 via-red-800 to-red-900 shadow-2xl relative overflow-hidden sticky top-0 z-50"
       variants={headerVariants}
       initial="hidden"
       animate="visible"
@@ -191,7 +191,7 @@ export default function Header() {
                 >
                   {item.label}
                   <motion.span 
-                    className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 group-hover:w-full transition-all duration-300"
+                    className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400"
                     whileHover={{ width: "100%" }}
                     transition={{ duration: 0.3 }}
                   ></motion.span>

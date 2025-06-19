@@ -1,5 +1,6 @@
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
+import HistorySection from '@/components/HistorySection';
 import FeaturedTours from '@/components/FeaturedTours';
 import CulturalHighlights from '@/components/CulturalHighlights';
 import Testimonials from '@/components/Testimonials';
@@ -10,6 +11,7 @@ export default function Home() {
     <div className="min-h-screen">
       <Header />
       <Hero />
+      <HistorySection />
       <FeaturedTours />
       <CulturalHighlights />
       <Testimonials />
