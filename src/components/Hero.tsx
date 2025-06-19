@@ -91,11 +91,11 @@ export default function Hero() {
         <div className="absolute inset-0 bg-pattern opacity-20"></div>
         <motion.div 
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.3 }}
+          animate={{ opacity: 0.4 }}
           transition={{ duration: 3, delay: 0.5 }}
           className="absolute inset-0"
           style={{
-            backgroundImage: `url('https://images.pexels.com/photos/2412603/pexels-photo-2412603.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop')`,
+            backgroundImage: `url('/lang-chu-tich-ho-chi-minh-1.jpg')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundBlendMode: 'overlay'
